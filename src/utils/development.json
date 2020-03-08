@@ -1,0 +1,10 @@
+{
+    "ENV": "dev",
+    "DB_URL": "localhost:27017",
+    "PUBLIC_URL": "http://localhost:5004",
+    "PORT": "5000",
+    "SMS_KEY": "e2333edf",
+    "SMS_SECRET_KEY": "PWfVtWo1CiDKsPkH",
+    "DB": "crickhatadb",
+    "API_SECRET_KEY": "crickhataapisecretkey"
+}

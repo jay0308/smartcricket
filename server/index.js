@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express()
 require('dotenv').config();
-const port = process.env.PORT || 8080;
+const port = process.env.NODE_ENV === "development" ? 5004 : process.env.PORT || 8080;
 const bodyParser = require('body-parser');
 const path = require('path');
 
@@ -26,7 +26,7 @@ app.use(bodyParser.json())
 app.use(express.static(path.join(__dirname, '/public')));
 
 app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "https://sola-parchi-dhap.herokuapp.com"); // update to match the domain you will make the request from
+    res.header("Access-Control-Allow-Origin", `${process.env.NODE_ENV === "development" ? "http://localhost:5000" : "*"}`); // update to match the domain you will make the request from
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.header("Access-Control-Allow-Credentials", true)
     next()

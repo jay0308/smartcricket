@@ -5,7 +5,7 @@ class Footer extends Component{
     render(){
         return(
             <div className={s.footerSec}>
-                Footer
+                Copyright © 2020, SmartCricket, or its affiliates
             </div>
         )
     }

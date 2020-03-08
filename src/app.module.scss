@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap');
+
+body{
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    color: #222222;
+    line-height: 1.2;
+    font-weight: 400;
+}
+.appShell{
+    padding-top: 58px;
+    .appContainer{
+        min-height: 500px;
+    }
+}
+
+button{
+    display: block;
+    width: 100%;
+    background: #0d0d63;
+    color: #fff;
+    border: 1px solid #0d0d63;
+    padding: 10px;
+    border-radius: 4px;
+
+    &:disabled{
+        opacity: 0.2;
+    }
+}

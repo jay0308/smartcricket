@@ -1,7 +1,7 @@
 const dbVars = require("../loaders/dbInitializer").dbVars;
 const ServiceResponse = require("../BaseClasses/ServiceResponse").serviceResponse;
 const appConstants = require("../utils/constants").appConstants;
-const SMSService = require("./SMSService");
+const EmailService = require("./EmailService");
 const utility = require("../utils/utility");
 
 const getUserList = async (req, res) => {
@@ -62,7 +62,7 @@ const createUser = async (req, res) => {
 const validateUserDetails = async (userData, collectionName) => {
     const mongoDb = dbVars.db;
     try {
-        if (userData.contactNo && userData.contactNo.toString().length === 10) {
+        if (userData.contactNo ) {
             let result = await mongoDb.collection(collectionName).find({ contactNo: userData.contactNo }).toArray();
             if (result && result.length > 0) {
                 if (!result[0].verified) {
@@ -113,7 +113,7 @@ const sendOtp = async (req, res) => {
             otpRecord = await enterOtpRecord(reqData);
         }
         if (otpRecord.status)
-            return SMSService.sendSms(reqData.contactNo, `CRICKHATA, OTP - ${reqData.otp}   `);
+            return EmailService.sendMail(reqData.contactNo, `SMARTCRICKET, OTP - ${reqData.otp}   `);
         return otpRecord;
     } catch (err) {
         console.log("Err", err);
@@ -188,7 +188,7 @@ const verifyOtp = async (req, res) => {
         const mongoDb = dbVars.db;
         let reqData = req.body;
         console.log("REQ data", reqData)
-        if (reqData.contactNo && reqData.contactNo.toString().length === 10 && reqData.otp && reqData.reqType && (reqData.reqType === "login" || reqData.reqType === "signup")) {
+        if (reqData.contactNo && reqData.otp && reqData.reqType && (reqData.reqType === "login" || reqData.reqType === "signup")) {
             let userOtp = await mongoDb.collection("userOtp").find({ contactNo: reqData.contactNo }).sort({ "updateDate": -1 }).limit(1).toArray();
             if (userOtp && userOtp.length > 0) {
                 userOtp = userOtp[0];
