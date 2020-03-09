@@ -2,11 +2,14 @@
 const express = require('express');
 const router = express.Router({mergeParams: true});
 const userController = require("./userController");
+const postController = require("./postController");
 const TokenValidator = require("../utils/validateTokenMiddleware");
 
 router.use("/v3",TokenValidator.validate)
 
 router.use("/user",userController);
+
+router.use("/post",postController);
 
 router.get('/', function (req, res) {
     res.send({ "welcome": "It's running" });
