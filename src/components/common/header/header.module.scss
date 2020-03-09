@@ -8,4 +8,17 @@
     width: 100%;
     background: #242442;
     color: #fff;
+    display: inline-block;
+    align-items: center;
+    box-sizing: border-box;
+
+    span{
+        margin-right: 10px;
+        display: inline-block;
+        vertical-align: middle;
+    }
+    .SearchIcon{
+        float: right;
+        margin-right: 0;
+    }
 }

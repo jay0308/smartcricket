@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import OtpScreen from "../common/otpScreen/OtpScreen";
+import RegisterScreen from "../common/registerScreen";
 
 class RegisterComponent extends Component{
     constructor(props){
@@ -27,7 +28,7 @@ class RegisterComponent extends Component{
             return <OtpScreen sendOtpToParent = {this.sendOtpToParent} {...this.props} />
         else
             return(
-                 <RegisterComponent sendRegisterDataToParent = {this.sendRegisterDataToParent} {...this.props} />
+                 <RegisterScreen sendRegisterDataToParent = {this.sendRegisterDataToParent} {...this.props} />
             )
     }
 }

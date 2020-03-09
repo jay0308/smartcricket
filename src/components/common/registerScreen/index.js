@@ -19,14 +19,13 @@ class OtpScreen extends Component{
                 {...input}
                 {...custom}
                 className={s.textField}
-                type = "number"
             />
         )
     render(){
         const { sendRegisterDataToParent, pristine, reset, submitting,registerFormValues } = this.props
         return (
             <div className={s.loginSection}>
-                <h2>Otp</h2>
+                <h2>Register</h2>
                 <form onSubmit={(e)=>{e.preventDefault(); registerFormValues && sendRegisterDataToParent(registerFormValues.name,registerFormValues.email)}}>
                     <div className={s.textField}>
                         <Field

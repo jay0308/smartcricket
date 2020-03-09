@@ -44,7 +44,7 @@ class LoginScreen extends Component {
                             Clear Values
                         </button> */}
                     </div>
-                    <div>Yet not registered? <Link to="/register">Go Ahead</Link></div>
+                    <div className={s.registerTxt}>Yet not registered? <Link to="/register">Go Ahead</Link></div>
                 </form>
             </div>
         )

@@ -157,7 +157,12 @@ const updateUser = async (userData, contactNo) => {
         const mongoDb = dbVars.db;
         let existNo = await mongoDb.collection("users").findOneAndUpdate({ contactNo: contactNo }, { $set: userData });
         delete existNo.value.password;
-        let sr = new ServiceResponse(true, existNo.value);
+        let latest = await mongoDb.collection("users").find({ contactNo: contactNo }).toArray();
+        if (latest && latest.length > 0) {
+            let sr = new ServiceResponse(true, latest[0]);
+            return sr.getServiceResponse();
+        }
+        let sr = new ServiceResponse(false, null);
         return sr.getServiceResponse();
     } catch (err) {
         console.log("Err", err);
@@ -203,9 +208,10 @@ const verifyOtp = async (req, res) => {
                         } else {
                             let obj = {}
                             obj.verified = true;
+                            obj.token = await utility.generateJWTTocken(reqData.contactNo)
                             let _updateRow = await updateUser(obj, reqData.contactNo);
                             if (_updateRow.status) {
-                                let sr = new ServiceResponse(true, appConstants.USER_INSERTED);
+                                let sr = new ServiceResponse(true, _updateRow.res);
                                 return sr.getServiceResponse();
                             }
                         }
