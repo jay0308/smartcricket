@@ -4,7 +4,7 @@ const appConstants = require("./constants").appConstants;
 
 const validate = (req, res, next) => {
     let token = req.headers['x-access-token'] || req.headers['authorization'];
-
+    console.log("Validating token",req.headers)
     if (token) {
         if (token.startsWith('Bearer ')) {
             // Remove Bearer from string
@@ -22,6 +22,7 @@ const validate = (req, res, next) => {
     } else {
         let gr = new responseBaseClass.GenericResponse(`${"error"}`, appConstants.TOKEN_MISSING, 403);
         res.status(403).send(gr.response())
+        console.log("FUC")
     }
 }
 

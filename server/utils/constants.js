@@ -15,6 +15,8 @@ module.exports = {
         RESEND_OTP:"Resend otp",
         NOT_VALID_TOKEN:"Not a valid token",
         TOKEN_MISSING:"Access token is missing",
-        USER_NOT_VERIFIED:"User not verified"
+        USER_NOT_VERIFIED:"User not verified",
+        POST_CREATED:"Post created",
+        POST_NOT_CREATED:"Post not created",
     }
 }

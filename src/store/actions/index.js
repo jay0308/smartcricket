@@ -1,10 +1,12 @@
 import {loginSubmit,otpSubmit, createUser} from "./userAction";
 import {genericPopupAction} from "./commonActions";
+import {createPost} from "./postActions";
 
 const actions = {
     loginSubmit,
     otpSubmit,
     genericPopupAction,
-    createUser
+    createUser,
+    createPost
 }
 export default actions;

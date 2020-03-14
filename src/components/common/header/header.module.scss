@@ -15,6 +15,10 @@
     box-sizing: border-box;
     @include globalGradient();
 
+    a{
+        color: #fff;
+    }
+
     span{
         margin-right: 10px;
         display: inline-block;

@@ -9,7 +9,7 @@ router.use("/v3",TokenValidator.validate)
 
 router.use("/user",userController);
 
-router.use("/post",postController);
+router.use("/post",TokenValidator.validate,postController);
 
 router.get('/', function (req, res) {
     res.send({ "welcome": "It's running" });

@@ -26,6 +26,8 @@ export const postRequest = (url,data,headers={}) => {
 
 export const getRequestWithToken = (url,headers={}) => {
     url = `${base_url}/api${url}`;
+    headers = {...headers}
+    headers.authorization = JSON.parse(localStorage.getItem("userInfo")).token
     const options = {
         method: 'get',
         url: url,
@@ -36,6 +38,8 @@ export const getRequestWithToken = (url,headers={}) => {
 
 export const postRequestWithToken = (url,data,headers={}) => {
     url = `${base_url}/api${url}`;
+    headers = {...headers}
+    headers.authorization = JSON.parse(localStorage.getItem("userInfo")).token
     const options = {
         method: 'post',
         url: url,

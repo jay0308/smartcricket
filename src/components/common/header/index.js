@@ -4,6 +4,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SidebarMenu from "../sidebarMenu";
 import SearchIcon from '@material-ui/icons/Search';
 import SearchComponent from "../searchComponent";
+import {Link} from "react-router-dom";
 
 class Header extends Component {
     constructor(props) {
@@ -38,7 +39,7 @@ class Header extends Component {
         return (
             <React.Fragment>
                 <header className={s.headerSec}>
-                    {userDataReducer && <span className={s.hamburger} onClick={this.openSidebarMenu}><MenuIcon /></span>}<span>SmartCricket</span>
+                    {userDataReducer && <span className={s.hamburger} onClick={this.openSidebarMenu}><MenuIcon /></span>}<Link to="/"><span>SmartCricket</span></Link>
                     {userDataReducer && <span className={s.SearchIcon} onClick={this.openSearch}><SearchIcon/></span>}
                 </header>
                 {
