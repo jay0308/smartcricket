@@ -18,7 +18,17 @@ const global = {
             errors.email = 'Invalid email address'
         }
         return errors
-    }
+    },
+    debounce : (func, delay) => { 
+        let debounceTimer 
+        return function() { 
+            const context = this
+            const args = arguments 
+                clearTimeout(debounceTimer) 
+                    debounceTimer 
+                = setTimeout(() => func.apply(context, args), delay) 
+        } 
+    } 
 }
 
 export default global;

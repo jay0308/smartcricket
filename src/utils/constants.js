@@ -3,7 +3,11 @@ const constants = {
         sendOtp:"/user/send/otp",
         verifyOtp:"/user/verify/otp",
         createUser:"/user/create",
-        createPost:"/post/create"
+        createPost:"/post/create",
+        getPost:"/post",
+        likePost:"/post/like",
+        getUser:"/user/",
+        getPlayerStyles:"/util/playerStyles"
     }
 }
 

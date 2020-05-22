@@ -6,6 +6,7 @@ const appConstants = require("../utils/constants").appConstants;
 const path = require('path');
 let _auth = null;
 let driveSmartCricketId = "11Z_nh8fGUdZIysh-xdt1Wb6hELQSRAzu";
+const dbVars = require("../loaders/dbInitializer").dbVars;
 
 // If modifying these scopes, delete token.json.
 const SCOPES = ['https://www.googleapis.com/auth/drive'];
@@ -80,7 +81,7 @@ async function listFiles(auth) {
         if (files.length) {
             console.log('Files:');
             files.map((file) => {
-                if(file.name === "SmartCricket"){
+                if (file.name === "SmartCricket") {
                     driveSmartCricketId = file.id;
                 }
                 console.log(`${file.name} (${file.id})`);
@@ -106,38 +107,65 @@ async function getDriveFiles(req, res) {
  * Lists the names and IDs of up to 10 files.
  * @param {google.auth.OAuth2} auth An authorized OAuth2 client.
  */
-async function fileUploader(auth){
-    const drive = google.drive({ version: 'v3', auth });
-    await listFiles(auth);
-    let parentIds = [];
-    parentIds.push(driveSmartCricketId);
-    console.log("IIIIIDD",driveSmartCricketId)
-    var fileMetadata = {
-        'name': 'photo.jpg',
-        'parents':parentIds
-    };
-    var media = {
-        mimeType: 'image/png',
-        body: fs.createReadStream(path.join(__dirname,"../temp/app.png"))
-    };
-    drive.files.create({
-        resource: fileMetadata,
-        media: media,
-        fields: 'id, name, mimeType, webViewLink, webContentLink, iconLink, size, originalFilename'
-    }, function (err, file) {
-        if (err) {
-            // Handle error
-            console.error(err);
-        } else {
-            console.log('File Id: ', file.data.id);
+ function fileUploader(auth, dataObj) {
+    return new Promise(async (resolve, reject) => {
+        if (!dataObj) {
+            let sr = new ServiceResponse(false, appConstants.IMAGE_NOT_UPLOADED_TO_DRIVE);
+            resolve(sr.getServiceResponse());
         }
-    });
+        const drive = google.drive({ version: 'v3', auth });
+        // await listFiles(auth);
+        let parentIds = [];
+        parentIds.push(driveSmartCricketId);
+        console.log("IIIIIDD", driveSmartCricketId)
+        var fileMetadata = {
+            'name': dataObj.fileName || 'photo.jpg',
+            'parents': parentIds
+        };
+        var media = {
+            mimeType: 'image/png',
+            body: fs.createReadStream(path.join(__dirname, "../temp/" + dataObj.fileName))
+        };
+        drive.files.create({
+            resource: fileMetadata,
+            media: media,
+            fields: 'id, name, mimeType, webViewLink, webContentLink, iconLink, size, originalFilename'
+        }, async function (err, file) {
+            if (err) {
+                // Handle error
+                console.error(err);
+                let sr = new ServiceResponse(false, appConstants.IMAGE_NOT_UPLOADED_TO_DRIVE);
+                resolve(sr.getServiceResponse());
+            } else {
+                const mongoDb = dbVars.db;
+                console.log('File Id: ', file.data.id);
+                let latest = await mongoDb.collection("posts").find({ _id: dataObj.postId }).toArray();
+                if (latest && latest.length > 0) {
+                    let imgArr = latest[0].images;
+                    imgArr.push(`https://drive.google.com/uc?export=view&amp;id=${file.data.id}`)
+                    let postData = {
+                        postComment: dataObj.postComment,
+                        images:imgArr    
+                    }
+                    let updated = await mongoDb.collection("posts").findOneAndUpdate({ _id: dataObj.postId }, { $set: postData });
+                    let sr = new ServiceResponse(true, appConstants.IMAGE_UPLOADED_TO_DRIVE);
+                    resolve(sr.getServiceResponse());
+                }
+                let sr = new ServiceResponse(false, appConstants.IMAGE_NOT_UPLOADED_TO_DRIVE);
+                resolve(sr.getServiceResponse());
+            }
+        });
+
+    })
 }
 
-function uploadFilesToDrive(req,res) {
-    if(_auth){
-        fileUploader(_auth);
-    }else{
+async function uploadFilesToDrive(req, res, dataObj) {
+    console.log("uploadFilesToDrive",dataObj)
+    if (_auth) {
+        let uploadRes = await fileUploader(_auth, dataObj);
+        console.log("promise",uploadRes)
+        return uploadRes;
+    } else {
         // Load client secrets from a local file.
         fs.readFile(path.join(__dirname, '../utils/gDriveCredentials.json'), (err, content) => {
             if (err) return console.log('Error loading client secret file:', err);
@@ -145,13 +173,13 @@ function uploadFilesToDrive(req,res) {
             authorize(JSON.parse(content), fileUploader);
         });
     }
-    let sr = new ServiceResponse(true, appConstants.USER_NOT_VALIDATED);
-    return sr.getServiceResponse();
+    // let sr = new ServiceResponse(true, appConstants.USER_NOT_VALIDATED);
+    // return sr.getServiceResponse();
 }
 
 // <img src="https://drive.google.com/uc?export=view&amp;id=162m9C-PIyPS7zh9Uy9G4xaxD7fbpOotf">
 
 module.exports = {
     getDriveFiles: getDriveFiles,
-    uploadFilesToDrive:uploadFilesToDrive
+    uploadFilesToDrive: uploadFilesToDrive
 }

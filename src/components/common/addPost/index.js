@@ -59,12 +59,15 @@ class AddPost extends Component {
         }
         var formData = new FormData();
         formData.append("postComment", this.state.postComment);
-        this.state.imag1 && formData.append("postImages[]", this.state.imag1)
-        this.state.imag2 && formData.append("postImages[]", this.state.imag2)
-        this.state.imag3 && formData.append("postImages[]", this.state.imag3)
-        this.state.imag4 && formData.append("postImages[]", this.state.imag4)
-        this.state.imag5 && formData.append("postImages[]", this.state.imag5);
-
+        let images = [];
+        this.state.imag1 && images.push(this.state.imag1)
+        this.state.imag2 && images.push(this.state.imag2)
+        this.state.imag3 && images.push(this.state.imag3)
+        this.state.imag4 && images.push(this.state.imag4)
+        this.state.imag5 && images.push(this.state.imag5);
+        images.length > 0 && images.map((e,i)=>{
+            formData.append(`postImages`, e)
+        })
         this.props.createPost(formData);
     }
     render() {

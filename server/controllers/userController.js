@@ -16,6 +16,18 @@ router.get("/",async function(req,res){
     }
 })
 
+router.get("/search",async function(req,res){
+    try{
+        let result = await userService.getUserList(req,res);
+        let gr = new responseBaseClass.GenericResponse(`${result.status ? "success" : "error"}`,result.res);
+        res.send(gr.response())
+    }
+    catch(err){
+        let gr = new responseBaseClass.GenericResponse("error",err.toString())
+        res.send(gr.response())
+    }
+})
+
 router.get("/:userId",function(req,res){
 
 })

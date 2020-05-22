@@ -15,8 +15,8 @@ module.exports = {
     generateJWTTocken: async (username) => {
         let token = jwt.sign({username: username},
             process.env.API_SECRET_KEY,
-            { expiresIn: '24h' // expires in 24 hours
+            { expiresIn: '365d' // expires in 24 hours
             });
         return token;
-    }
+    }, 
 }

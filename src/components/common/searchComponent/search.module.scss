@@ -42,3 +42,13 @@
         }
     }
 }
+
+.searchResult{
+    padding: 20px 0;
+    .listRow{
+        padding-bottom: 10px;
+        box-shadow: 0px 1px 0px rgba(0,0,0,0.2);
+        font-weight: 500;
+        margin-bottom: 15px;
+    }
+}

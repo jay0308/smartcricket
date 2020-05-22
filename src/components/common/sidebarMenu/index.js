@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import s from "./sidebarMenu.module.scss";
+import {Link} from "react-router-dom";
 
 class SidebarMenu extends Component {
     constructor(props) {
@@ -16,6 +17,11 @@ class SidebarMenu extends Component {
                     "menuName": "My Teams",
                     "icon": "",
                     "link": ""
+                },
+                {
+                    "menuName": "Individual Scoring",
+                    "icon": "",
+                    "link": "/scoring"
                 }
             ]
         }
@@ -58,7 +64,7 @@ class SidebarMenu extends Component {
                                 {
                                     menuList && menuList.map((e, i) => {
                                         return (
-                                            <div key={new Date().getMilliseconds() + i} className={s.menuList}>{e.menuName}</div>
+                                            <div key={new Date().getMilliseconds() + i} className={s.menuList}><Link onClick={this.closeMenu} to={e.link}>{e.menuName}</Link></div>
                                         )
                                     })
                                 }

@@ -7,7 +7,8 @@ class SearchComponent extends Component {
         super(props);
         this.state = {
             showSearch: "",
-            searchResult: []
+            searchResult: [],
+            searchInput: ""
         }
     }
     componentDidMount() {
@@ -25,16 +26,35 @@ class SearchComponent extends Component {
             closeSearch()
         }, 150)
     }
+    onInputChange = (e) => {
+        this.setState({
+            searchInput: e.target.value
+        })
+        this.props.getUser(e.target.value)
+    }
     render() {
-        const { showSearch, searchResult } = this.state;
-        const { userDataReducer } = this.props;
+        const { showSearch, searchResult, searchInput } = this.state;
+        const { userList, userClickHandler } = this.props;
         return (
             <div className={s.searchCont}>
-                <div className={s.backBtn} onClick={this.closeMenu}><KeyboardBackspaceIcon/></div>
                 {
                     <div className={`${s.searchLayer} ${showSearch}`}>
-                        <input ref="searchInp" type="text" placeholder="Search player"/>
-                     </div>
+                        <div className={s.backBtn} onClick={this.closeMenu}><KeyboardBackspaceIcon /></div>
+                        <input ref="searchInp" type="text" placeholder="Search player" value={searchInput} onChange={this.onInputChange} />
+
+                        <div className={s.searchResult}>
+                            {
+                                userList &&
+                                userList.map((e, i) => {
+                                    return (
+                                        <div className={s.listRow} onClick={userClickHandler ? ()=>{userClickHandler(e)} : ()=>{}} key={new Date().getMilliseconds() + i}>
+                                            {e.name}
+                                        </div>
+                                    )
+                                })
+                            }
+                        </div>
+                    </div>
                 }
             </div>
         )

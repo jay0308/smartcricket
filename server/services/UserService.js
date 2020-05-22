@@ -7,7 +7,9 @@ const utility = require("../utils/utility");
 const getUserList = async (req, res) => {
     try {
         const mongoDb = dbVars.db;
-        let result = await mongoDb.collection("users").find({}).toArray();
+        let query = req.query.name;
+        var re = new RegExp(query,"g");
+        let result = query ? await mongoDb.collection("users").find({"name": re},{ _id: 1, name: 1, contactNo: 1 }).toArray() : await mongoDb.collection("users").find({},{ _id: 1, name: 1, contactNo: 1 }).toArray();
         console.log("User List", result)
         let sr = new ServiceResponse(true, result);
         return sr.getServiceResponse();

@@ -13,6 +13,8 @@ import LoginComponent from "./components/login/LoginContainer";
 import LoaderContainer from "./components/common/loader/LoaderContainer";
 import GenericPopupContainer from "./components/common/genericPopup/GenericPopupContainer";
 import RegisterComponent from "./components/register/RegisterContainer";
+import ScoringContainer from "./components/scoring/ScoringContainer";
+import ScoringBoardContainer from "./components/scoring/ScoringBoardContainer";
 
 class Routes extends React.Component {
     render() {
@@ -31,6 +33,12 @@ class Routes extends React.Component {
                             <SecuredRoutes>
                                 <Route exact path="/">
                                     <Home />
+                                </Route>
+                                <Route exact path="/scoring">
+                                    <ScoringContainer />
+                                </Route>
+                                <Route exact path="/scoring/board">
+                                    <ScoringBoardContainer />
                                 </Route>
                             </SecuredRoutes>
 

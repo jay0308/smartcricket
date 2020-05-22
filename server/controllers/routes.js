@@ -4,10 +4,13 @@ const router = express.Router({mergeParams: true});
 const userController = require("./userController");
 const postController = require("./postController");
 const TokenValidator = require("../utils/validateTokenMiddleware");
+const UtilController = require("../controllers/UtilController");
 
 router.use("/v3",TokenValidator.validate)
 
 router.use("/user",userController);
+
+router.use("/util",UtilController);
 
 router.use("/post",TokenValidator.validate,postController);
 

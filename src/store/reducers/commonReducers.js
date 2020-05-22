@@ -25,6 +25,15 @@ export function  successReducer(state = null, action) {
     }
 }
 
+export function  scoringReducer(state = null, action) {
+    switch (action.type) {
+        case 'SCORING':
+            return action.payload;
+        default:
+            return state;
+    }
+}
+
 let userData = localStorage.getItem("userInfo") ? JSON.parse(localStorage.getItem("userInfo")) : null;
 export function  userDataReducer(state = userData, action) {
     switch (action.type) {

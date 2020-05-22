@@ -18,5 +18,22 @@ module.exports = {
         USER_NOT_VERIFIED:"User not verified",
         POST_CREATED:"Post created",
         POST_NOT_CREATED:"Post not created",
+        IMAGE_NOT_UPLOADED_TO_DRIVE:"Image not uploaded to drive",
+        IMAGE_UPLOADED_TO_DRIVE:"Image uploaded to drive",
+        POST_NOT_FOUND:"Post not found",
+        POST_LIKED:"Post liked",
+        BATSMEN_OPTION:[
+            "Right hand batsmen",
+            "Left hand batsmen"
+        ],
+        BALLER_OPTION:[
+            "Right arm spin baller",
+            "Left arm spin baller",
+            "Right arm medium fast baller",
+            "Left arm medium fast baller",
+            "Right arm fast baller",
+            "Left arm fast baller",
+        ]
+
     }
 }

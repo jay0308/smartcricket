@@ -8,7 +8,8 @@ export const getRequest = (url,headers={}) => {
     const options = {
         method: 'get',
         url: url,
-        headers:headers
+        headers:headers,
+        crossorigin:true
       };
     return axios(options)
 }
@@ -19,7 +20,8 @@ export const postRequest = (url,data,headers={}) => {
         method: 'post',
         url: url,
         headers:headers,
-        data:data
+        data:data,
+        crossorigin:true
       };
     return axios(options)
 }
@@ -27,11 +29,12 @@ export const postRequest = (url,data,headers={}) => {
 export const getRequestWithToken = (url,headers={}) => {
     url = `${base_url}/api${url}`;
     headers = {...headers}
-    headers.authorization = JSON.parse(localStorage.getItem("userInfo")).token
+    headers["auth"] = JSON.parse(localStorage.getItem("userInfo")) ? JSON.parse(localStorage.getItem("userInfo")).token : "" ;
     const options = {
         method: 'get',
         url: url,
-        headers:headers
+        headers:headers,
+        crossorigin:true
       };
     return axios(options)
 }
@@ -39,12 +42,13 @@ export const getRequestWithToken = (url,headers={}) => {
 export const postRequestWithToken = (url,data,headers={}) => {
     url = `${base_url}/api${url}`;
     headers = {...headers}
-    headers.authorization = JSON.parse(localStorage.getItem("userInfo")).token
+    headers["auth"] = JSON.parse(localStorage.getItem("userInfo")) ? JSON.parse(localStorage.getItem("userInfo")).token : "" ;
     const options = {
         method: 'post',
         url: url,
         headers:headers,
-        data:data
+        data:data,
+        crossorigin:true
       };
     return axios(options)
 }

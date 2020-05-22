@@ -33,9 +33,19 @@ class Header extends Component {
         this.setState({
             showSearch: false
         })
+        let sr = {...this.props.successReducer}
+        if(sr && sr.getUserList){
+            sr.getUserList = null;
+            this.props.successAction(sr)
+        }
     }
+
+    userClickHandler = (userId) => {
+        console.log(userId)
+    }
+
     render() {
-        const { userDataReducer } = this.props;
+        const { userDataReducer,getUser, userList } = this.props;
         return (
             <React.Fragment>
                 <header className={s.headerSec}>
@@ -53,7 +63,9 @@ class Header extends Component {
                     this.state.showSearch &&
                     <SearchComponent
                         closeSearch = {this.closeSearch}
-                        userDataReducer = {userDataReducer}
+                        userList = {userList}
+                        getUser = {getUser}
+                        userClickHandler = {this.userClickHandler}
                     />
                 }
             </React.Fragment>
