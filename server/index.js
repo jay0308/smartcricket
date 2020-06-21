@@ -23,7 +23,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 //set static folder
-app.use(express.static(path.join(__dirname, '/public')));
+app.use(express.static(path.join(__dirname, '../build')));
 
 var cors = require('cors');
 
@@ -42,8 +42,8 @@ app.use(function (req, res, next) {
 const apis = require("./controllers/routes");
 app.use('/api', apis);
 
-app.get('/', function (req, res, next) {
-    res.sendFile(path.join(__dirname, '../public') + '/index.html');
+app.get('*', function (req, res, next) {
+    res.sendFile(path.join(__dirname, '../build') + '/index.html');
 });
 
 
